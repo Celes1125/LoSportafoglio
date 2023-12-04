@@ -36,7 +36,11 @@ module.exports = {
                 })
                 .populate({
                     path:"pocket",
-                    model: "pockets"
+                    model: "pockets",
+                    populate: {
+                        path: "wallet",
+                        model: "wallets"
+                    }
                 })
                 .populate({
                     path:"vendor",

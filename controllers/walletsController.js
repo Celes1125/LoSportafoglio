@@ -1,5 +1,6 @@
 
 const walletsModel = require('../models/walletsModel')
+const pocketsModel = require('../models/pocketsModel')
 
 
 module.exports = {
@@ -21,18 +22,14 @@ module.exports = {
 
     getAll: async function (req, res, next) {
         try {
-            const wallets = await walletsModel.find()
-                .populate({
-                    path: "pockets",
-                    model: "pockets"
-                })
+            const wallets = await walletsModel.find()               
                 .populate({
                     path: "creator",
                     model: "users"
                 })
             res.json(wallets)
 
-        } catch (e){
+        } catch (e) {
             next(e)
         }
     },
@@ -49,7 +46,7 @@ module.exports = {
             }
             const wallet = await findById(req.params.id)
             if (!wallet) {
-                res.json({message : "La billetera no existe"})
+                res.json({ message: "La billetera no existe" })
                 return
             }
             res.json(wallet)
@@ -59,20 +56,20 @@ module.exports = {
     },
 
     update: async function (req, res, next) {
-        try{
-            const wallet = await walletsModel.updateOne({_id: req.params.id}, req.body)
+        try {
+            const wallet = await walletsModel.updateOne({ _id: req.params.id }, req.body)
             res.json(wallet)
 
-        }catch(e){
+        } catch (e) {
             next(e)
         }
-    }, 
-    delete: async function (req, res, next){
-        try{
-            const wallet = await walletsModel.deleteOne({_id: req.params.id})
+    },
+    delete: async function (req, res, next) {
+        try {
+            const wallet = await walletsModel.deleteOne({ _id: req.params.id })
             res.json(wallet)
 
-        }catch(e){
+        } catch (e) {
             next(e)
 
         }
@@ -89,8 +86,39 @@ module.exports = {
         } catch (e) {
             next(e)
         }
+    },
+
+    getPocketsOfWallet: async function (req, res, next) {
+
+        async function getPockets(id) {
+            try {
+                const pockets = await pocketsModel.find({ wallet: id })
+                    .populate(
+                        {
+                            path: "wallet",
+                            reference: "wallets"
+                        }
+                    )
+                return pockets
+            } catch (e) {
+                return null
+            }
+        }
+        try {
+            const pocketsOfWallet = await getPockets(req.params.id)
+            if (!pocketsOfWallet) {
+                res.json({ message: "no existen bolsillos que pertenezcan a esta cartera" })
+                return
+            }
+            res.json(pocketsOfWallet)
+        } catch (e) {
+            next(e)
+        }
+
+
+
     }
-    
+
 
 
 

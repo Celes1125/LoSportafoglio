@@ -7,8 +7,8 @@ module.exports = {
                 {
                     name: req.body.name,
                     amount:req.body.amount,
-                    currency:req.body.currency
-                    //wallet:req.body.wallet
+                    currency:req.body.currency,
+                    wallet:req.body.wallet
                     
                 }
             )
@@ -23,6 +23,10 @@ module.exports = {
     getAll: async function (req, res, next) {
         try {
             const pockets = await pocketsModel.find()
+            .populate({
+                path:"wallet",
+                model:"wallets"
+                   })
             res.send(pockets)
 
         } catch (e) {

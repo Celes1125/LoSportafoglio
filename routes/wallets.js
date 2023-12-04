@@ -9,6 +9,7 @@ router.get('/:id', walletsController.getById);
 router.put('/:id', walletsController.update);
 router.delete('/:id', walletsController.delete);
 router.delete('/', walletsController.deleteAll);
+router.get('/pockets/:id', walletsController.getPocketsOfWallet)
 
 
 module.exports = router;

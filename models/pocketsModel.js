@@ -1,7 +1,6 @@
 const mongoose = require('../bin/mongodb')
 const errorMessages = require('../utils/errorMessages')
 
-
 const pocketsSchema = new mongoose.Schema(
     {
         name: {
@@ -21,12 +20,12 @@ const pocketsSchema = new mongoose.Schema(
         lastModified: {
             type: Date,
             default: null
-        }
-        /*wallet: {
+        },
+        wallet: {
             type: mongoose.Schema.ObjectId,
             ref: "wallets",
             required: [true, errorMessages.general.required],
-        }*/
+        }
     
     }
 )

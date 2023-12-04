@@ -9,7 +9,7 @@ var usersRouter = require('./routes/users');
 var movementsRouter = require ('./routes/movements');
 var categoriesRouter = require ('./routes/categories');
 var vendorsRouter = require ('./routes/vendors');
-walletsRouter = require ('./routes/wallets');
+var walletsRouter = require ('./routes/wallets');
 var pocketsRouter = require ('./routes/pockets');
 
 var app = express();

@@ -1,5 +1,5 @@
 const mongoose = require('../bin/mongodb')
-const users = require ('../models/usersModel')
+const errorMessages = require('../utils/errorMessages')
 
 
 
@@ -7,29 +7,44 @@ const movementsSchema = new mongoose.Schema(
     {
         type: {
             type: String,
-            enum: ["ingreso", "egreso"]
+            enum: ["ingreso", "egreso"],
+            required: [true, errorMessages.general.required]
         },
         date: {
             type: Date,
             default: new Date()
         },
-        amount: Number,
+        amount: {
+            type: Number,
+            required: [true, errorMessages.general.required]
+        },
         currency: {
             type: String,
-            enum: ["euro", "dolar", "peso"]
+            enum: ["euro", "dolar", "peso"],
+            required: [true, errorMessages.general.required]
         },
         note: String,
         user: {            
             type: mongoose.Schema.ObjectId,
-            ref: "users"
+            ref: "users",
+            required: [true, errorMessages.general.required]
+
+        },
+        vendor: {
+            type: mongoose.Schema.ObjectId,
+            ref: "vendors",
+            
         },
         category: {
             type: mongoose.Schema.ObjectId,
-            ref: "categories"
+            ref: "categories",
+            required: [true, errorMessages.general.required]
+
         },
         pocket: {
             type: mongoose.Schema.ObjectId,
-            ref: "pockets"
+            ref: "pockets",
+            required: [true, errorMessages.general.required]
 
         }
     }
