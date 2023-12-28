@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var cors = require('cors')
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -25,6 +26,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -51,4 +53,15 @@ app.use(function(err, req, res, next) {
   // res.render('error');
   });
 
+  function validateUser ( req, res, next ) {
+    jwt.verify(req.headers['x-access-token'], req.app.get('secretKey'), function (err, decoded) {
+      if(err){
+        res.json( {message: err.message})
+      }else{
+        console.log("decoded: ", decoded)
+        next()
+      }
+  
+    })
+  }
 module.exports = app;

@@ -25,6 +25,7 @@ const walletsSchemma = new mongoose.Schema(
         activated: {
             type: Boolean,
             default: false
+
         },
         creator: {
             type: mongoose.Schema.ObjectId,

@@ -9,5 +9,10 @@ module.exports={
     },
     emailValidate:(input) => {
         return /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/.test(input);
+      }, 
+    isValidName : (input) => {
+        const regex = /^[a-zA-Z ]+$/;
+        return input.length >= 4 && regex.test(input);
       }
+      
 }

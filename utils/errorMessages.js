@@ -8,7 +8,8 @@ module.exports = {
     users : {
         wrongPassword:"El {PATH} debe contener números y al menos una letra, una minúscula y una mayúscula",
         wrongEmail:"El {PATH} debe ser un correo electrónico válido",
-        noUser: "No existe ningun usuario que corresponda con los datos proporcionados"
+        noUser: "No existe ningun usuario que corresponda con los datos proporcionados",
+        wrongName: "El nombre de usuario debe contener sólo letras y espacios, y un mínimo de 4 caracteres"
 
         
     }

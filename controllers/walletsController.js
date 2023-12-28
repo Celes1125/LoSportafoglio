@@ -9,7 +9,8 @@ module.exports = {
         try {
             const wallet = new walletsModel({
                 name: req.body.name,
-                creator: req.body.creator //the objectId from the usersModel 
+                creator: req.body.creator, //the objectId from the usersModel 
+                activated: req.body.activated
             })
             const document = await wallet.save()
             res.json(document)

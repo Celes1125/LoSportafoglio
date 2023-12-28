@@ -3,6 +3,7 @@ const errorMessages = require('../utils/errorMessages');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const movementsModel = require('../models/movementsModel')
+
 module.exports = {
 
   create: async function (req, res, next) {
@@ -53,8 +54,7 @@ module.exports = {
     try {
       const user = await findById(req.params.id)
       if (!user) {
-        res.json({ "message": errorMessages.users.noUser })
-        return
+        res.json({ "message": errorMessages.users.noUser})
       }
       const movements = await movementsModel.find({user: user._id})
       if (!movements){
@@ -96,12 +96,12 @@ module.exports = {
 
   login: async function (req, res, next) {
     try {
-      const user = await usersModel.findOne({ email: req.body.email })
-      if (!user) {
-        return res.json({ message: "wrong email" })
-
+      const { email, password } = req.body
+      const user = await usersModel.findOne({ email })
+     if (!user) {
+        return res.json({ message: "wrong email" })     
       }
-      if (bcrypt.compareSync(req.body.password, user.password)) {
+      if (bcrypt.compareSync(password, user.password)) {
         const token = jwt.sign({ userId: user._id }, req.app.get('secretKey'), { expiresIn: "1h" })
         res.json({ token: token })
       } else {
