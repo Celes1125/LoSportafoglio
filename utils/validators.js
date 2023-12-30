@@ -13,6 +13,6 @@ module.exports={
     isValidName : (input) => {
         const regex = /^[a-zA-Z ]+$/;
         return input.length >= 4 && regex.test(input);
-      }
+      }    
       
 }
