@@ -1,16 +1,14 @@
 const mongoose = require('../bin/mongodb')
 const errorMessages = require('../utils/errorMessages')
 
-
-
 const movementsSchema = new mongoose.Schema(
     {
         type: {
             type: String,
-            enum: ["ingreso", "egreso"],
+            enum: ["in", "out", "transfer"],
             required: [true, errorMessages.general.required]
         },
-        date: {
+        date: { 
             type: Date,
             default: new Date()
         },
@@ -23,30 +21,18 @@ const movementsSchema = new mongoose.Schema(
             enum: ["euro", "dolar", "peso"],
             required: [true, errorMessages.general.required]
         },
-        note: String,
+        notes: String,
         user: {            
-            type: mongoose.Schema.ObjectId,
-            ref: "users",
-            required: [true, errorMessages.general.required]
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "users",                
 
         },
-        vendor: {
-            type: mongoose.Schema.ObjectId,
-            ref: "vendors",
-            
-        },
-        category: {
-            type: mongoose.Schema.ObjectId,
-            ref: "categories",
-            required: [true, errorMessages.general.required]
-
-        },
-        pocket: {
-            type: mongoose.Schema.ObjectId,
-            ref: "pockets",
-            required: [true, errorMessages.general.required]
-
-        }
+        vendor: {},
+        category: {},
+        fromPocket: {},
+        toPocket: {},
+        pocket: {},
+        wallet: {}
     }
 
 )

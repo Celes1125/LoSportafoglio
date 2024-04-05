@@ -8,6 +8,10 @@ const vendorsSchema = new mongoose.Schema(
             type: String,
             required: [true, errorMessages.general.required], 
             unique: true, 
+        }, 
+        creator: {
+            type: mongoose.Schema.ObjectId,
+            ref: "users"
         }
     }
 

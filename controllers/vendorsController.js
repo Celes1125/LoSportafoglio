@@ -6,7 +6,8 @@ module.exports = {
             const vendor = new vendorsModel(
                 {
                     name: req.body.name,
-                    
+                    creator: req.body.creator
+
                 }
             )
             const document = await vendor.save()
@@ -19,7 +20,11 @@ module.exports = {
 
     getAll: async function (req, res, next) {
         try {
-            const vendors = await vendorsModel.find()
+            const vendors = await vendorsModel.find().
+                populate({
+                    path: "creator",
+                    model: "users"
+                })
             res.send(vendors)
 
         } catch (e) {
@@ -31,7 +36,11 @@ module.exports = {
         try {
             async function findById(id) {
                 try {
-                    const vendor = await vendorsModel.findById(id);
+                    const vendor = await vendorsModel.findById(id).
+                    populate({
+                        path: "creator",
+                        model: "users"
+                    });
                     return vendor
                 } catch (e) {
                     return null

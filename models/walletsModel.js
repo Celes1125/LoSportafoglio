@@ -21,16 +21,11 @@ const walletsSchemma = new mongoose.Schema(
         lastModified: {
             type: Date,
             default: null
-        },
-        activated: {
-            type: Boolean,
-            default: false
-
-        },
-        creator: {
+        },        
+        users: [{
             type: mongoose.Schema.ObjectId,
             ref: "users"
-        }
+        }]
 
     }
 )

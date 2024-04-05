@@ -8,13 +8,16 @@ module.exports = {
                     type: req.body.type,
                     amount: req.body.amount,
                     currency: req.body.currency,
-                    note: req.body.note,
-                    user: req.body.userId,
+                    notes: req.body.notes,
+                    user: req.body.user,
                     category: req.body.category,
+                    vendor: req.body.vendor,
+                    fromPocket: req.body.fromPocket,
+                    toPocket: req.body.toPocket,
                     pocket: req.body.pocket,
-                    vendor: req.body.vendor
+                    wallet: req.body.wallet                    
                 }
-            )
+            )  
             const document = await movement.save()
             res.json(document)
 
@@ -26,26 +29,10 @@ module.exports = {
     getAll: async function (req, res, next) {
         try {
             const movements = await movementsModel.find()
-                .populate({
-                    path: "user",
-                    model: "users"
-                })
-                .populate({
-                    path: "category",
-                    model: "categories"
-                })
-                .populate({
-                    path:"pocket",
-                    model: "pockets",
-                    populate: {
-                        path: "wallet",
-                        model: "wallets"
-                    }
-                })
-                .populate({
-                    path:"vendor",
-                    model: "vendors"
-                })
+            .populate({
+                path: "user",
+                model: "users"
+            })   
             res.send(movements)
 
         } catch (e) {
@@ -57,7 +44,7 @@ module.exports = {
         try {
             async function findById(id) {
                 try {
-                    const movement = await movementsModel.findById(id);
+                    const movement = await movementsModel.findById(id)                      
                     return movement
                 } catch (e) {
                     return null
@@ -65,7 +52,7 @@ module.exports = {
             }
             const movement = await findById(req.params.id)
             if (!movement) {
-                res.json({ message: "el movimiento no existe" });
+                res.json({ message: "movement does not exist" });
                 return
             }
             res.json(movement)
@@ -100,15 +87,35 @@ module.exports = {
         try {
             const movementsCount = await movementsModel.countDocuments()
             if (movementsCount === 0) {
-                res.json({ message: "No existen movimientos a eliminar" })
+                res.json({ message: "There are not movements to delete" })
                 return
             }
             await movementsModel.deleteMany()
-            res.json({ message: "Todos los movimientos han sido eliminados" })
+            res.json({ message: "All movements has been deleted" })
         } catch (e) {
             next(e)
         }
-    }
+    },
+
+    deleteMovementsByPocket: async function (req, res, next) {
+        try {
+           const movements =  await movementsModel.deleteMany({ pocket: req.params.id })
+           res.json({ message: "All pocket's movements has been successfully deleted"})
+
+        } catch (e) {
+            next(e)
+        }
+    },
+
+    getMovementsByPocket: async function (req, res, next) {
+        try {
+           const movements =  await movementsModel.findMany({ pocket: req.params.id })
+           res.json(movements)
+
+        } catch (e) {
+            next(e)
+        }
+    },
 }
 
 

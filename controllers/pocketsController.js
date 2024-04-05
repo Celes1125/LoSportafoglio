@@ -15,7 +15,8 @@ module.exports = {
             const document = await pocket.save()
             res.json(document)
 
-        } catch (e) {
+        } catch (e) {+
+            
             next(e)
         }
     },
@@ -38,7 +39,10 @@ module.exports = {
         try {
             async function findById(id) {
                 try {
-                    const pocket = await pocketsModel.findById(id);
+                    const pocket = await pocketsModel.findById(id).populate({
+                        path:"wallet",
+                        model:"wallets"
+                           });
                     return pocket
                 } catch (e) {
                     return null

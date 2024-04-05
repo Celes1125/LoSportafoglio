@@ -5,8 +5,8 @@ const pocketsSchema = new mongoose.Schema(
     {
         name: {
             type: String,
-            required: [true, errorMessages.general.required],
-            unique: true,
+            required: [true, errorMessages.general.required]
+           
         },
         amount: Number,
         currency: {
@@ -26,6 +26,7 @@ const pocketsSchema = new mongoose.Schema(
             ref: "wallets",
             required: [true, errorMessages.general.required],
         }
+        
     
     }
 )

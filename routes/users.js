@@ -4,6 +4,7 @@ var usersController = require ('../controllers/usersController')
 
 
 router.post('/', usersController.create);
+router.get('/token/:token', usersController.getUserIdByToken)
 router.get('/', usersController.getAll);
 router.get('/:id', usersController.getById);
 router.get('/movements/:id', usersController.getUsersMovements);
@@ -12,6 +13,7 @@ router.post('/login', usersController.login);
 router.delete('/:id', (req,res,next) => { req.app.validateUser (req, res, next) },usersController.delete);
 //router.delete('/', (req,res,next) => { req.app.validateUser (req, res, next) },usersController.deleteAll);
 router.delete('/', usersController.deleteAll);
+
 
 
 module.exports = router;

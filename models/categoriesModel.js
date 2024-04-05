@@ -11,7 +11,12 @@ const categoriesSchema = new mongoose.Schema(
             set: function (value) {
                 return value.toUpperCase()
             },
-            description: String
+            
+        },
+        description: String, 
+        creator: {
+            type: mongoose.Schema.ObjectId,
+            ref: "users"
         }
     }
 

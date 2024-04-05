@@ -6,7 +6,8 @@ module.exports = {
             const category = new categoriesModel(
                 {
                     name: req.body.name,
-                    description: req.body.description
+                    description: req.body.description,
+                    creator:req.body.creator
                     
                 }
             )
@@ -20,7 +21,10 @@ module.exports = {
 
     getAll: async function (req, res, next) {
         try {
-            const categories = await categoriesModel.find()
+            const categories = await categoriesModel.find().populate({
+                path: "creator",
+                model: "users"
+            })
             res.send(categories)
 
         } catch (e) {
@@ -32,7 +36,10 @@ module.exports = {
         try {
             async function findById(id) {
                 try {
-                    const category = await categoriesModel.findById(id);
+                    const category = await categoriesModel.findById(id).populate({
+                        path: "creator",
+                        model: "users"
+                    });
                     return category
                 } catch (e) {
                     return null
@@ -52,7 +59,7 @@ module.exports = {
 
     update: async function (req, res, next) {
         try {
-            const category = await categoriesModel.updateOne({ id_: req.params.id }, req.body);
+            const category = await categoriesModel.updateOne({ _id: req.params.id }, req.body);
             res.json(category)
 
         } catch (e) {

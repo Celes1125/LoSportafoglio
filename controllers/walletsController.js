@@ -9,8 +9,7 @@ module.exports = {
         try {
             const wallet = new walletsModel({
                 name: req.body.name,
-                creator: req.body.creator, //the objectId from the usersModel 
-                activated: req.body.activated
+                users: req.body.users //the array of with the objectId from the usersModel                 
             })
             const document = await wallet.save()
             res.json(document)
@@ -23,10 +22,11 @@ module.exports = {
 
     getAll: async function (req, res, next) {
         try {
-            const wallets = await walletsModel.find()               
+            const wallets = await walletsModel.find()
                 .populate({
-                    path: "creator",
+                    path: "users",
                     model: "users"
+
                 })
             res.json(wallets)
 
@@ -39,7 +39,11 @@ module.exports = {
         try {
             async function findById(id) {
                 try {
-                    const wallet = await walletsModel.findById(id)
+                    const wallet = await walletsModel.findById(id).populate({
+                        path: "users",
+                        model: "users"
+
+                    })
                     return wallet
                 } catch (e) {
                     return null
@@ -90,14 +94,13 @@ module.exports = {
     },
 
     getPocketsOfWallet: async function (req, res, next) {
-
         async function getPockets(id) {
             try {
                 const pockets = await pocketsModel.find({ wallet: id })
                     .populate(
                         {
                             path: "wallet",
-                            reference: "wallets"
+                            model: "wallets"
                         }
                     )
                 return pockets
@@ -116,12 +119,12 @@ module.exports = {
             next(e)
         }
 
-
-
-    }
-
-
-
+    },
 
 
 }
+
+
+
+
+

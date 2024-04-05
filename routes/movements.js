@@ -8,7 +8,9 @@ router.get('/', movementsController.getAll);
 router.get('/:id', movementsController.getById);
 router.put('/:id', movementsController.update);
 router.delete('/:id', movementsController.delete);
-router.delete('/', movementsController.deleteAll)
+router.delete('/', movementsController.deleteAll);
+router.delete('/byPocketId/:id', movementsController.deleteMovementsByPocket)
+router.get('/byPocketId/:id', movementsController.getMovementsByPocket)
 
 
 module.exports = router;

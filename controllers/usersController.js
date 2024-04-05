@@ -28,10 +28,7 @@ module.exports = {
 
   getAll: async function (req, res, next) {
     try {
-      const users = await usersModel.find().populate({
-        path: "movements",
-        model: "movements"
-      })
+      const users = await usersModel.find()
       res.send(users)
 
     } catch (e) {
@@ -54,18 +51,18 @@ module.exports = {
     try {
       const user = await findById(req.params.id)
       if (!user) {
-        res.json({ "message": errorMessages.users.noUser})
+        res.json({ "message": errorMessages.users.noUser })
       }
-      const movements = await movementsModel.find({user: user._id})
-      if (!movements){
-        res.json (user)
+      const movements = await movementsModel.find({ user: user._id })
+      if (!movements) {
+        res.json(user)
       }
       //Muestro al usuario con sus movimientos
       const userWithMovements = {
         ...user.toObject(),
         movements: movements
       }
-      res.json(userWithMovements)     
+      res.json(userWithMovements)
 
 
     } catch (e) {
@@ -98,8 +95,8 @@ module.exports = {
     try {
       const { email, password } = req.body
       const user = await usersModel.findOne({ email })
-     if (!user) {
-        return res.json({ message: "wrong email" })     
+      if (!user) {
+        return res.json({ message: "wrong email" })
       }
       if (bcrypt.compareSync(password, user.password)) {
         const token = jwt.sign({ userId: user._id }, req.app.get('secretKey'), { expiresIn: "1h" })
@@ -134,28 +131,39 @@ module.exports = {
 
     async function getUsersMovements(id) {
       try {
-        const movements = await movementsModel.find({user: id})
+        const movements = await movementsModel.find({ user: id })
         return movements
       } catch (e) {
         return null
       }
     }
-    try{
+    try {
       const usersMovements = await getUsersMovements(req.params.id)
-      if(!usersMovements){
-        res.json({message: "no existen movimientos"})
+      if (!usersMovements) {
+        res.json({ message: "no existen movimientos" })
         return
       }
       res.json(usersMovements)
-    }catch(e){
+    } catch (e) {
       next(e)
     }
-
-
-
+  },
+  
+  getUserIdByToken: async function (req, res, next) {
+    try {
+      const token = req.params.token      
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const decodedToken = JSON.parse(atob(base64));
+      if(decodedToken && decodedToken.userId){
+          res.json(decodedToken.userId)
+        }
+          res.json({ message: "token no valido" })
+    }catch (e) {
+      next(e)
+    }
   }
 
-  
 
 
 }
