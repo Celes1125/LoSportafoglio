@@ -107,6 +107,16 @@ module.exports = {
         }
     },
 
+    deleteMovementsByUser: async function (req, res, next) {
+        try {
+           const movements =  await movementsModel.deleteMany({ user: req.params.id })
+           res.json({ message: "All movements has been successfully deleted"})
+
+        } catch (e) {
+            next(e)
+        }
+    },
+
     getMovementsByPocket: async function (req, res, next) {
         try {
            const movements =  await movementsModel.findMany({ pocket: req.params.id })
@@ -116,6 +126,8 @@ module.exports = {
             next(e)
         }
     },
+
+    
 }
 
 

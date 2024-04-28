@@ -10,6 +10,7 @@ router.put('/:id', movementsController.update);
 router.delete('/:id', movementsController.delete);
 router.delete('/', movementsController.deleteAll);
 router.delete('/byPocketId/:id', movementsController.deleteMovementsByPocket)
+router.delete('/byUserId/:id', movementsController.deleteMovementsByUser)
 router.get('/byPocketId/:id', movementsController.getMovementsByPocket)
 
 
