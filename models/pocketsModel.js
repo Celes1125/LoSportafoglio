@@ -5,7 +5,8 @@ const pocketsSchema = new mongoose.Schema(
     {
         name: {
             type: String,
-            required: [true, errorMessages.general.required]
+            required: [true, errorMessages.general.required],
+            lowercase:true
            
         },
         amount: Number,
@@ -31,6 +32,7 @@ const pocketsSchema = new mongoose.Schema(
     }
 )
 
-
+// Compound index to ensure uniqueness of 'name' within the same 'wallet'
+pocketsSchema.index({ name: 1, wallet: 1 }, { unique: true });
 
 module.exports = mongoose.model("pockets", pocketsSchema);

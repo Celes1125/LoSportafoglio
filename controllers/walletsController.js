@@ -2,9 +2,7 @@
 const walletsModel = require('../models/walletsModel')
 const pocketsModel = require('../models/pocketsModel')
 
-
 module.exports = {
-
     create: async function (req, res, next) {
         try {
             const wallet = new walletsModel({
@@ -14,8 +12,9 @@ module.exports = {
             const document = await wallet.save()
             res.json(document)
 
-        } catch (e) {
-            next(e)
+        } catch (e) {         
+            next(e)  
+            console.log('backend error on wallets model or controller: ', e.message)
         }
     },
 
@@ -31,7 +30,7 @@ module.exports = {
             res.json(wallets)
 
         } catch (e) {
-            next(e)
+            next(e)            
         }
     },
 
@@ -57,6 +56,7 @@ module.exports = {
             res.json(wallet)
         } catch (e) {
             next(e)
+            
         }
     },
 
@@ -67,6 +67,7 @@ module.exports = {
 
         } catch (e) {
             next(e)
+            
         }
     },
     delete: async function (req, res, next) {
@@ -76,6 +77,7 @@ module.exports = {
 
         } catch (e) {
             next(e)
+            
 
         }
     },
@@ -90,6 +92,7 @@ module.exports = {
             res.json({ message: "Todas las billeteras han sido eliminadas" })
         } catch (e) {
             next(e)
+            
         }
     },
 
@@ -105,6 +108,7 @@ module.exports = {
                     )
                 return pockets
             } catch (e) {
+                next(e)
                 return null
             }
         }
@@ -115,7 +119,7 @@ module.exports = {
                 return
             }
             res.json(pocketsOfWallet)
-        } catch (e) {
+        } catch (e) {           
             next(e)
         }
 

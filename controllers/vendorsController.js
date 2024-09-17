@@ -15,6 +15,7 @@ module.exports = {
 
         } catch (e) {
             next(e)
+            console.log('backend error on vendors model or controller: ', e.message)
         }
     },
 

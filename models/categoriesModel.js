@@ -1,9 +1,7 @@
 const mongoose = require('../bin/mongodb')
 const errorMessages = require('../utils/errorMessages')
 
-
-const categoriesSchema = new mongoose.Schema(
-    {
+const categoriesSchema = new mongoose.Schema(    {
         name: {
             type: String,
             required: [true, errorMessages.general.required], 
@@ -23,5 +21,4 @@ const categoriesSchema = new mongoose.Schema(
 )
 
 categoriesSchema.set("toJSON", { setters: true })
-
 module.exports = mongoose.model("categories", categoriesSchema);

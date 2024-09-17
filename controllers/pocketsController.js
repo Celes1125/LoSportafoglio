@@ -15,9 +15,9 @@ module.exports = {
             const document = await pocket.save()
             res.json(document)
 
-        } catch (e) {+
-            
+        } catch (e) {            
             next(e)
+            console.log('backend error on pockets model or controller: ', e.message)
         }
     },
 

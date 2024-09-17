@@ -7,7 +7,8 @@ const vendorsSchema = new mongoose.Schema(
         name: {
             type: String,
             required: [true, errorMessages.general.required], 
-            unique: true, 
+            unique: true,            
+            lowerCase:true 
         }, 
         creator: {
             type: mongoose.Schema.ObjectId,
@@ -17,6 +18,7 @@ const vendorsSchema = new mongoose.Schema(
 
 )
 
-
+// Compound index to ensure uniqueness of 'name' within the vendors of the same user
+vendorsSchema.index({ name: 1, creator: 1 }, { unique: true });
 
 module.exports = mongoose.model("vendors", vendorsSchema);
