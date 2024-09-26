@@ -26,6 +26,10 @@ const pocketsSchema = new mongoose.Schema(
             type: mongoose.Schema.ObjectId,
             ref: "wallets",
             required: [true, errorMessages.general.required],
+        }, 
+        is_deleted: {
+            type: Boolean,
+            default: false
         }
         
     

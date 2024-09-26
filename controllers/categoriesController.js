@@ -60,8 +60,7 @@ module.exports = {
     update: async function (req, res, next) {
         try {
             const category = await categoriesModel.updateOne({ _id: req.params.id }, req.body);
-            res.json(category)
-
+            res.json(category)  
         } catch (e) {
             next(e)
 

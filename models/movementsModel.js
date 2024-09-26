@@ -27,12 +27,30 @@ const movementsSchema = new mongoose.Schema(
             ref: "users",                
 
         },
-        vendor: {},
-        category: {},
-        fromPocket: {},
-        toPocket: {},
-        pocket: {},
-        wallet: {}
+        vendor: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "vendors"
+        },
+        category: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "categories"
+        },
+        fromPocket: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "pockets"
+        },
+        toPocket: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "pockets"
+        },
+        pocket: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "pockets"
+        },
+        wallet: {
+            type: mongoose.Schema.Types.Mixed,  // Permite tanto ObjectId como objetos completos
+            ref: "wallets"
+        }
     }
 
 )

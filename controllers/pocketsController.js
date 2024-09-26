@@ -71,7 +71,28 @@ module.exports = {
         }
     },
 
-    delete: async function (req, res, next) {
+    logicDelete: async function (req, res, next) {
+        try {
+            // Cambiar el campo `is_deleted` a `true` directamente
+            const pocket = await pocketsModel.updateOne(
+                { _id: req.params.id }, // Filtro para encontrar el registro
+                { $set: { is_deleted: true } } // Actualización que establece `is_deleted` a true
+            );
+    
+            // Verificamos si realmente se actualizó un registro
+            if (pocket.nModified === 0) {
+                return res.status(404).json({ message: 'Pocket not found or already deleted.' });
+            }
+    
+            // Responder con éxito
+            res.json({ message: 'Pocket marked as deleted logically.' });
+        } catch (e) {
+            next(e); // Manejo de errores
+        }
+    },
+    
+
+    fisicDelete: async function (req, res, next) {
         try {
             const pocket = await pocketsModel.deleteOne({ _id: req.params.id })
             res.json(pocket)
@@ -81,7 +102,7 @@ module.exports = {
         }
     },
 
-    deleteAll: async function (req, res, next) {
+    fisicDeleteAll: async function (req, res, next) {
         try {
             const pocketsCount = await pocketsModel.countDocuments()
             if (pocketsCount === 0) {

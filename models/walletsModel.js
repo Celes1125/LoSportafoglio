@@ -8,12 +8,12 @@ const walletsSchema = new mongoose.Schema(
             type: String,
             required: [true, errorMessages.general.required],
             unique: true,
-            lowerCase:true
+            lowerCase: true
         },
         pockets: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "pockets",
-            
+
         },
         creationDate: {
             type: Date,
@@ -22,13 +22,18 @@ const walletsSchema = new mongoose.Schema(
         lastModified: {
             type: Date,
             default: null
-        },        
+        },
         users: [{
             type: mongoose.Schema.ObjectId,
             ref: "users"
-        }]
-
+        }],
+        is_deleted: {
+            type: Boolean,
+            default: false
+        }
     }
+
+
 )
 
 // Compound index to ensure uniqueness of 'name' within the wallets of the same user

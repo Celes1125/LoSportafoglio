@@ -32,7 +32,31 @@ module.exports = {
             .populate({
                 path: "user",
                 model: "users"
-            })   
+            })
+            .populate({
+                path: "category",
+                model: "categories"
+            })
+            .populate({
+                path: "vendor",
+                model: "vendors"
+            })
+            .populate({
+                path: "fromPocket",
+                model: "pockets"
+            }) 
+            .populate({
+                path: "toPocket",
+                model: "pockets"
+            })
+            .populate({
+                path: "pocket",
+                model: "pockets"
+            })
+            .populate({
+                path: "wallet",
+                model: "wallets"
+            })
             res.send(movements)
 
         } catch (e) {

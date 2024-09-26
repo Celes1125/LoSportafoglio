@@ -1,6 +1,7 @@
 
 const walletsModel = require('../models/walletsModel')
 const pocketsModel = require('../models/pocketsModel')
+const { logicDelete } = require('./pocketsController')
 
 module.exports = {
     create: async function (req, res, next) {
@@ -70,7 +71,28 @@ module.exports = {
             
         }
     },
-    delete: async function (req, res, next) {
+
+    logicDelete: async function (req, res, next) {
+        try {
+            // Cambiar el campo `is_deleted` a `true` directamente
+            const wallet = await walletsModel.updateOne(
+                { _id: req.params.id }, // Filtro para encontrar el registro
+                { $set: { is_deleted: true } } // Actualización que establece `is_deleted` a true
+            );
+    
+            // Verificamos si realmente se actualizó un registro
+            if (wallet.nModified === 0) {
+                return res.status(404).json({ message: 'Wallet is not found or already deleted.' });
+            }
+    
+            // Responder con éxito
+            res.json({ message: 'Wallet marked as deleted logically.' });
+        } catch (e) {
+            next(e); // Manejo de errores
+        }
+    },
+
+    fisicDelete: async function (req, res, next) {
         try {
             const wallet = await walletsModel.deleteOne({ _id: req.params.id })
             res.json(wallet)
@@ -81,7 +103,7 @@ module.exports = {
 
         }
     },
-    deleteAll: async function (req, res, next) {
+    fisicDeleteAll: async function (req, res, next) {
         try {
             const walletssCount = await walletsModel.countDocuments()
             if (walletssCount === 0) {
