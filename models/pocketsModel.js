@@ -6,10 +6,12 @@ const pocketsSchema = new mongoose.Schema(
         name: {
             type: String,
             required: [true, errorMessages.general.required],
-            lowercase:true
-           
+            lowercase:true           
         },
-        amount: Number,
+        amount: {
+            type: Number, 
+            default: 0
+        },
         currency: {
             type: String,
             enum: ["euro", "dolar", "peso"]
@@ -30,13 +32,10 @@ const pocketsSchema = new mongoose.Schema(
         is_deleted: {
             type: Boolean,
             default: false
-        }
-        
-    
+        }     
     }
 )
-
 // Compound index to ensure uniqueness of 'name' within the same 'wallet'
-pocketsSchema.index({ name: 1, wallet: 1 }, { unique: true });
+//pocketsSchema.index({ name: 1, wallet: 1 }, { unique: true });
 
 module.exports = mongoose.model("pockets", pocketsSchema);

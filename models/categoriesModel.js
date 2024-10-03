@@ -4,8 +4,7 @@ const errorMessages = require('../utils/errorMessages')
 const categoriesSchema = new mongoose.Schema(    {
         name: {
             type: String,
-            required: [true, errorMessages.general.required], 
-            unique: true,
+            required: [true, errorMessages.general.required],             
             set: function (value) {
                 return value.toUpperCase()
             },
@@ -15,6 +14,10 @@ const categoriesSchema = new mongoose.Schema(    {
         creator: {
             type: mongoose.Schema.ObjectId,
             ref: "users"
+        },
+        is_deleted: {
+            type: Boolean,
+            default: false
         }
     }
 

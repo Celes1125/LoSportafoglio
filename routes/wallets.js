@@ -4,7 +4,8 @@ var walletsController = require ('../controllers/walletsController')
 
 
 router.post('/', walletsController.create);
-router.get('/', walletsController.getAll);
+router.get('/all/:userId', walletsController.getAll);
+router.get('/notDeleted/:userId', walletsController.getAllNotDeleted);
 router.get('/:id', walletsController.getById);
 router.put('/:id', walletsController.update);
 router.delete('/:id', walletsController.fisicDelete);

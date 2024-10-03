@@ -1,27 +1,57 @@
 const categoriesModel = require("../models/categoriesModel")
 
+
 module.exports = {
     create: async function (req, res, next) {
         try {
-            const category = new categoriesModel(
-                {
-                    name: req.body.name,
-                    description: req.body.description,
-                    creator:req.body.creator
-                    
-                }
-            )
-            const document = await category.save()
-            res.json(document)
+            // searching for duplicates inside the not eliminated categories of the user
+            const existingCategory = await categoriesModel.findOne({
+                name: req.body.name,
+                creator: req.body.creator,  
+                is_deleted: false  
+            });
+            // if duplication exists return error
+            if (existingCategory) {               
+                return res.status(400).json({ message: 'The category name already exists for the specified user.' });
+            }
+            //if duplication not exists proceed to create and save the new category
+            const category = new categoriesModel({
+                name: req.body.name,
+                description: req.body.description,
+                creator: req.body.creator  // userId
+            });
+            // saving the new category
+            const newCategory = await category.save();
+            // status return
+            res.status(201).json(newCategory);
+        } catch (e) {
+            console.error('Error creating a category:', e.message);
+            next(e); 
+        }
+    },
+
+    //get all categories of the user
+    getAll: async function (req, res, next) {
+        try {
+            const categories = await categoriesModel.find(
+                { creator: req.params.userId }
+            ).populate({
+                path: "creator",
+                model: "users"
+            })
+            res.send(categories)
 
         } catch (e) {
             next(e)
         }
     },
-
-    getAll: async function (req, res, next) {
+    // get all not deleted categories of the user
+    getAllNotDeleted: async function (req, res, next) {
         try {
-            const categories = await categoriesModel.find().populate({
+            const categories = await categoriesModel.find(
+                { creator: req.params.userId,
+                  is_deleted: false   
+            }).populate({
                 path: "creator",
                 model: "users"
             })
@@ -67,7 +97,22 @@ module.exports = {
         }
     },
 
-    delete: async function (req, res, next) {
+    logicDelete: async function (req, res, next) {
+        try {
+            const category = await categoriesModel.updateOne(
+                { _id: req.params.id }, // Filtro para encontrar el registro
+                { $set: { is_deleted: true } } // Actualización que establece `is_deleted` a true
+            );
+            if (category.nModified === 0) {
+                return res.status(404).json({ message: 'The category is not found or already deleted.' });
+            }  
+            res.json(category)
+        } catch (e) {
+            next(e)
+        }
+    },
+
+    fisicDelete: async function (req, res, next) {
         try {
             const category = await categoriesModel.deleteOne({ _id: req.params.id })
             res.json(category)

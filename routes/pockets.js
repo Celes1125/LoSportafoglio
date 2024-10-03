@@ -4,7 +4,8 @@ var pocketsController = require ('../controllers/pocketsController')
 
 
 router.post('/', pocketsController.create);
-router.get('/', pocketsController.getAll);
+router.get('/notDeleted/:walletId', pocketsController.getAllNotDeleted);
+router.get('/all/:walletId', pocketsController.getAll);
 router.get('/:id', pocketsController.getById);
 router.put('/:id', pocketsController.update);
 router.delete('/:id', pocketsController.fisicDelete);
