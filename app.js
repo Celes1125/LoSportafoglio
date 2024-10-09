@@ -26,7 +26,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(cors());
+// Habilitar CORS para todas las rutas
+app.use(cors({
+  origin: ['http://localhost:4200', 'http://localhost:3000'], // Permitir el origen de tu frontend
+  methods: ['GET', 'POST', 'PATCH', 'DELETE', 'PUT'],  // Métodos HTTP permitidos
+  allowedHeaders: ['Content-Type', 'Authorization'],   // Encabezados permitidos
+  exposedHeaders: ['Content-Disposition'],  // Exponer 'Content-Disposition' para que el navegador pueda manejar la descarga
+}));
+
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

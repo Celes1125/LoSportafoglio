@@ -12,6 +12,7 @@ router.delete('/', movementsController.deleteAll);
 router.delete('/byPocketId/:id', movementsController.deleteMovementsByPocket)
 router.delete('/byUserId/:id', movementsController.deleteMovementsByUser)
 router.get('/byPocketId/:id', movementsController.getMovementsByPocket)
+router.get('/downloads/:userId', movementsController.downloadPDF)
 
 
 module.exports = router;
