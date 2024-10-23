@@ -99,7 +99,7 @@ module.exports = {
         return res.json({ message: "wrong email" })
       }
       if (bcrypt.compareSync(password, user.password)) {
-        const token = jwt.sign({ userId: user._id }, req.app.get('secretKey'), { expiresIn: "1h" })
+        const token = jwt.sign({ userId: user._id }, req.app.get('secretKey'), { expiresIn: "10h" })
         res.json({ token: token })
       } else {
         res.json({ message: "wrong password" })
@@ -151,7 +151,7 @@ module.exports = {
   
   getUserIdByToken: async function (req, res, next) {
     try {
-      const token = req.params.token      
+      const token = req.params.token || req.headers.token      
       const base64Url = token.split('.')[1];
       const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
       const decodedToken = JSON.parse(atob(base64));
@@ -164,6 +164,30 @@ module.exports = {
     }
   }
 
+  
 
+/*getUserIdByToken: async function (req, res, next) {
+  try {
+    const token = req.params.token || req.headers.token;
 
+    if (!token) {
+      return res.status(400).json({ message: "Token no proporcionado" });
+    }
+
+    // Verificar y decodificar el token
+    const decodedToken = jwt.decode(token, { complete: true });
+
+    if (decodedToken && decodedToken.payload && decodedToken.payload.userId) {
+      return res.json(decodedToken.payload.userId);
+    }
+
+    return res.status(400).json({ message: "Token no válido" });
+  } catch (e) {
+    next(e);
+  }*/
 }
+
+
+
+
+

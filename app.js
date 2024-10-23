@@ -4,6 +4,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors')
+var jwt = require('jsonwebtoken'); // Asegúrate de que JWT esté importado
+
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -20,7 +22,6 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.set('secretKey', '3513551863');
 
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -28,7 +29,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 // Habilitar CORS para todas las rutas
 app.use(cors({
-  origin: ['http://localhost:4200', 'http://localhost:3000'], // Permitir el origen de tu frontend
+  origin: ['http://localhost:4200', 'http://localhost:3000', 'http://localhost:4200/dashboard/reports/movementsTable', 'http://localhost:41489'], // Permitir el origen de tu frontend
   methods: ['GET', 'POST', 'PATCH', 'DELETE', 'PUT'],  // Métodos HTTP permitidos
   allowedHeaders: ['Content-Type', 'Authorization'],   // Encabezados permitidos
   exposedHeaders: ['Content-Disposition'],  // Exponer 'Content-Disposition' para que el navegador pueda manejar la descarga
@@ -61,15 +62,24 @@ app.use(function(err, req, res, next) {
   // res.render('error');
   });
 
-  function validateUser ( req, res, next ) {
-    jwt.verify(req.headers['x-access-token'], req.app.get('secretKey'), function (err, decoded) {
-      if(err){
-        res.json( {message: err.message})
-      }else{
-        console.log("decoded: ", decoded)
-        next()
-      }
-  
-    })
-  }
+  function validateUser(req, res, next) {
+    // Obtener el token desde los headers y quitar el prefijo 'Bearer ' si existe
+    const token = req.headers['authorization']?.split(' ')[1];
+
+    // Verificar que el token existe
+    if (!token) {
+        return res.status(401).json({ message: "No token provided" });
+    }
+
+    // Verificar el token usando jwt.verify
+    jwt.verify(token, req.app.get('secretKey'), function (err, decoded) {
+        if (err) {
+            return res.status(401).json({ message: err.message });
+        } else {
+            console.log("decoded: ", decoded);
+            next(); // Si todo está bien, llama a next()
+        }
+    });
+}
+app.validateUser = validateUser; 
 module.exports = app;
