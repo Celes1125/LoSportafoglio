@@ -55,6 +55,4 @@ const movementsSchema = new mongoose.Schema(
 
 )
 
-
-
 module.exports = mongoose.model("movements", movementsSchema);
