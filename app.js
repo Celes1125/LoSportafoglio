@@ -14,6 +14,7 @@ var categoriesRouter = require ('./routes/categories');
 var vendorsRouter = require ('./routes/vendors');
 var walletsRouter = require ('./routes/wallets');
 var pocketsRouter = require ('./routes/pockets');
+var notificationsRouter = require ('./routes/notifications');
 
 var app = express();
 
@@ -44,6 +45,8 @@ app.use('/categories', categoriesRouter);
 app.use('/vendors', vendorsRouter);
 app.use('/wallets', walletsRouter);
 app.use('/pockets', pocketsRouter);
+app.use('/notifications', notificationsRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

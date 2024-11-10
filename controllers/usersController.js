@@ -162,6 +162,21 @@ module.exports = {
     }catch (e) {
       next(e)
     }
+  },
+
+  getUserByEmail: async function (req, res, next) {
+    try {
+      const email = req.params.email ;
+      const user = await usersModel.findOne({ email });
+
+      if (!user) {
+        return res.status(404).json({ message: "Usuario no encontrado" });
+      }
+
+      res.json(user);
+    } catch (e) {
+      next(e);
+    }
   }
 
   
