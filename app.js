@@ -1,3 +1,6 @@
+
+require('dotenv').config();
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -18,10 +21,12 @@ var notificationsRouter = require ('./routes/notifications');
 
 var app = express();
 
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-app.set('secretKey', '3513551863');
+app.set('secretKey', process.env.SECRET_KEY);
 
 app.use(logger('dev'));
 app.use(express.json());
