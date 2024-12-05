@@ -65,6 +65,17 @@ module.exports = {
         }
     },
 
+    //edit notification
+    update: async function (req, res, next) {
+        try {
+            const notification = await notificationsModel.updateOne({ _id: req.params.notId }, req.body);
+            res.json(notification)  
+        } catch (e) {
+            next(e)
+
+        }
+    }
+
 
 
 
