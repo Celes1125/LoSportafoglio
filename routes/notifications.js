@@ -4,7 +4,7 @@ var notificationsController = require ('../controllers/notificationsController')
 
 router.get('/:userId', notificationsController.getAllNotDeleted);
 router.post('/', notificationsController.create);
-router.patch('/:notId', notificationsController.edit);
+router.put('/:notId', notificationsController.update);
 router.delete('/', notificationsController.fisicDeleteAll);
 
 
