@@ -164,20 +164,23 @@ module.exports = {
     }
   },
 
-  getUserByEmail: async function (req, res, next) {
-    try {
-      const email = req.params.email ;
-      const user = await usersModel.findOne({ email });
+  
 
-      if (!user) {
-        return res.status(404).json({ message: "Usuario no encontrado" });
-      }
+getUserByEmail: async function (req, res, next) {
+  try {
+    const email = req.query.email; 
+    const user = await usersModel.findOne({ email });
 
-      res.json(user);
-    } catch (e) {
-      next(e);
+    if (!user) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
     }
+
+    res.json(user);
+  } catch (e) {
+    next(e);
   }
+}
+
 
   
 
