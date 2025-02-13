@@ -35,7 +35,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 // Habilitar CORS para todas las rutas
 app.use(cors({
-  origin: ['https://lo-sportafoglio-front-i0a7zrj5v-celes-projects-b4460b91.vercel.app/','http://localhost:4200', 'http://localhost:4200/dashboard/reports/movementsTable', 'https://lo-sportafoglio-front.vercel.app', 'http://localhost:41489'], // Permitir el origen de tu frontend
+  origin: ['https://lo-sportafoglio-front-i0a7zrj5v-celes-projects-b4460b91.vercel.app/','http://localhost:4200', 'http://localhost:4200/dashboard/reports/movementsTable', 'https://lo-sportafoglio-front.vercel.app', 'http://localhost:41489', 'https://lo-sportafoglio-front-9yqw3t1im-celes-projects-b4460b91.vercel.app'], // Permitir el origen de tu frontend
   methods: ['GET', 'POST', 'PATCH', 'DELETE', 'PUT', 'HEAD'],  // Métodos HTTP permitidos
   allowedHeaders: ['Content-Type', 'Authorization'],   // Encabezados permitidos
   exposedHeaders: ['Content-Disposition'],  // Exponer 'Content-Disposition' para que el navegador pueda manejar la descarga
