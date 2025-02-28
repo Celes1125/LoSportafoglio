@@ -38,6 +38,7 @@ app.use(cors({
   origin: [
     'http://localhost:4200',
     'http://localhost:41489',
+    'https://lo-sportafoglio-front.vercel.app',
     'https://lo-sportafoglio-front-git-develop-celes-projects-b4460b91.vercel.app',
     'https://lo-sportafoglio-front.vercel.app'  // sin barra final
   ],
