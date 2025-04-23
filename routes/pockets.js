@@ -11,7 +11,6 @@ router.put('/:id', pocketsController.update);
 router.delete('/:id', pocketsController.fisicDelete);
 router.patch('/:id', pocketsController.logicDelete);
 router.delete('/', pocketsController.fisicDeleteAll);
-
-
+router.post('/refresh', pocketsController.refreshPocketAmounts)
 
 module.exports = router;

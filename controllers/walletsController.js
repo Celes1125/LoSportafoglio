@@ -1,6 +1,10 @@
 
 const walletsModel = require('../models/walletsModel')
 const pocketsModel = require('../models/pocketsModel')
+const Decimal = require('decimal.js');
+//const mongoose = require('mongoose'); // Necesario para ObjectId en el match de aggregación si se usa
+
+
 
 module.exports = {
     create: async function (req, res, next) {
@@ -175,6 +179,46 @@ module.exports = {
 
     },
 
+    //getting total amount and neto amount of a wallet
+    getAmountsOfWallet: async function (req, res, next) {
+        const walletId = req.params.id;           
+        try {            
+            const pocketsOfWallet = await pocketsModel.find({
+                wallet: walletId,
+                is_deleted: false
+            });     
+            if (!pocketsOfWallet || pocketsOfWallet.length === 0) {    
+                return res.status(404).json({ message: "No existen bolsillos para esta cartera" });
+            }    
+            // Inicializar los totales usando Decimal.js
+            let totalAmount = new Decimal(0);
+            let netoAmount = new Decimal(0);
+    
+            // Calcular el totalAmount iterando y usando Decimal.js
+            for (const pocket of pocketsOfWallet) {
+                // Convierte Decimal128 a string, luego a Decimal de decimal.js
+                const currentAmount = new Decimal(pocket.amount.toString());
+                totalAmount = totalAmount.plus(currentAmount); // Usa .plus()
+            }
+            if (pocketsOfWallet.length > 0) {
+                const mainPocket = pocketsOfWallet[0]; 
+                const mainAmount = new Decimal(mainPocket.amount.toString());
+                netoAmount = totalAmount.minus(mainAmount); // Usa .minus()
+            }
+    
+            // Enviar la respuesta convirtiendo los resultados de Decimal.js a String
+            res.json({
+                totalAmount: totalAmount.toString(), // Convertir a string para el front
+                netoAmount: netoAmount.toString()    // Convertir a string para el front
+            });
+    
+        } catch (e) {
+            console.error("Error calculating wallet amounts:", e); // Loguea el error real
+            next(e);
+        }
+    }          
+
+    
 
 }
 

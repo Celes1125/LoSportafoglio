@@ -8,12 +8,12 @@ module.exports = {
                     user: req.body.user,
                     fromPocket: req.body.fromPocket,
                     toPocket: req.body.toPocket,
-                    amount: req.body.amount,                    
+                    amount: req.body.amount, // recibimos un string                   
                     note: req.body.note,                    
                 }
             )  
-            const document = await transfer.save()
-            res.json(document)
+            const document = await transfer.save() //  se guarda en Decimal128
+            res.json(document) // devuelve un amount.toString()
 
         } catch (e) {
             next(e)
@@ -44,7 +44,7 @@ module.exports = {
                     }
                 })
                 
-            res.send(transfers)
+            res.json(transfers)
 
         } catch (e) {
             next(e)

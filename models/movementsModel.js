@@ -10,10 +10,11 @@ const movementsSchema = new mongoose.Schema(
         },
         date: { 
             type: Date,
-            default: new Date()
+            default: Date.now
         },
         amount: {
-            type: Number,
+            // using Decimal128 to not get float numbers issues   
+            type: mongoose.Schema.Types.Decimal128, 
             required: [true, errorMessages.general.required]
         },
         currency: {
@@ -54,5 +55,18 @@ const movementsSchema = new mongoose.Schema(
     }
 
 )
+
+// Configura las opciones toJSON para que devuelva el amount como string automáticamente,
+// de esta forma no tengo que modificar cada respuesta de los controladores, sólo asegurarme
+// de que devuelvan un .JSON
+movementsSchema.set('toJSON', {    
+    transform: function (doc, ret, options) {        
+        if (ret.amount && ret.amount.toString) { // Verifica que existe y tiene toString (es Decimal128)
+             ret.amount = ret.amount.toString();
+        }   
+        return ret; 
+    }
+});
+
 
 module.exports = mongoose.model("movements", movementsSchema);

@@ -7,7 +7,7 @@ module.exports = {
         try {
             const movement = new movementsModel({
                 type: req.body.type,
-                amount: req.body.amount,
+                amount: req.body.amount, // se recibe un string
                 currency: req.body.currency,
                 notes: req.body.notes,
                 user: req.body.user,
@@ -18,8 +18,8 @@ module.exports = {
                 pocket: req.body.pocket,
                 wallet: req.body.wallet
             });
-            const document = await movement.save();
-            res.json(document);
+            const document = await movement.save(); // se guarda un amount Decimal128
+            res.json(document); // se devuelve un amount.toString()
         } catch (e) {
             next(e);
         }

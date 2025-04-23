@@ -11,7 +11,9 @@ router.put('/:id', walletsController.update);
 router.delete('/:id', walletsController.fisicDelete);
 router.patch('/:id', walletsController.logicDelete);
 router.delete('/', walletsController.fisicDeleteAll);
-router.get('/pockets/:id', walletsController.getPocketsOfWallet)
+router.get('/pockets/:id', walletsController.getPocketsOfWallet);
+router.get('/amounts/:id', walletsController.getAmountsOfWallet);
+
 
 
 module.exports = router;
