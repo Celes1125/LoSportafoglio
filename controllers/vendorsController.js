@@ -3,12 +3,12 @@ const vendorsModel = require("../models/vendorsModel")
 module.exports = {
     create: async function (req, res, next) {
         try {
-            const existingVendor = await vendorsModel.findOne({ 
-                    name: req.body.name,
-                    creator: req.body.creator,
-                    is_deleted: false
-                })
-            if(existingVendor){
+            const existingVendor = await vendorsModel.findOne({
+                name: req.body.name,
+                creator: req.body.creator,
+                is_deleted: false
+            })
+            if (existingVendor) {
                 return res.status(400).json({ message: 'The vendors name already exists for the specified user.' });
             }
             const vendor = new vendorsModel({
@@ -27,8 +27,9 @@ module.exports = {
         try {
             const vendors = await vendorsModel.find({
                 creator: req.params.userId
-            }).
-                populate({
+            })
+                .sort({ name: 1 })
+                .populate({
                     path: "creator",
                     model: "users"
                 })
@@ -43,27 +44,28 @@ module.exports = {
         try {
             const vendors = await vendorsModel.find({
                 creator: req.params.userId,
-                is_deleted: false               
+                is_deleted: false
             })
-            .populate({
-                path:"creator",
-                model:"users"
-                   })
+                .sort({ name: 1 })
+                .populate({
+                    path: "creator",
+                    model: "users"
+                })
             res.send(vendors)
 
         } catch (e) {
             next(e)
         }
-    },     
+    },
     getById: async function (req, res, next) {
         try {
             async function findById(id) {
                 try {
                     const vendor = await vendorsModel.findById(id).
-                    populate({
-                        path: "creator",
-                        model: "users"
-                    });
+                        populate({
+                            path: "creator",
+                            model: "users"
+                        });
                     return vendor
                 } catch (e) {
                     return null
@@ -94,12 +96,13 @@ module.exports = {
     getAllNotDeleted: async function (req, res, next) {
         try {
             const vendors = await vendorsModel.find(
-                { creator: req.params.userId,
-                  is_deleted: false   
-            }).populate({
-                path: "creator",
-                model: "users"
-            })
+                {
+                    creator: req.params.userId,
+                    is_deleted: false
+                }).populate({
+                    path: "creator",
+                    model: "users"
+                })
             res.send(vendors)
 
         } catch (e) {
@@ -114,7 +117,7 @@ module.exports = {
             );
             if (vendor.nModified === 0) {
                 return res.status(404).json({ message: 'The vendor is not found or already deleted.' });
-            }  
+            }
             res.json(vendor)
         } catch (e) {
             next(e)

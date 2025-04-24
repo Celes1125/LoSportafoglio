@@ -35,10 +35,12 @@ module.exports = {
         try {
             const categories = await categoriesModel.find(
                 { creator: req.params.userId }
-            ).populate({
+            )
+            .sort({name: 1})
+            .populate({
                 path: "creator",
                 model: "users"
-            })
+            })            
             res.send(categories)
 
         } catch (e) {
@@ -51,7 +53,9 @@ module.exports = {
             const categories = await categoriesModel.find(
                 { creator: req.params.userId,
                   is_deleted: false   
-            }).populate({
+            })
+            .sort({name: 1})
+            .populate({
                 path: "creator",
                 model: "users"
             })
