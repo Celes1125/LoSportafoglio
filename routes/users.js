@@ -4,7 +4,7 @@ var usersController = require ('../controllers/usersController')
 
 
 router.post('/', usersController.create);
-router.get('/email', usersController.getUserByEmail)
+router.get('/email', usersController.getUserByEmail);
 router.get('/token/:token', usersController.getUserIdByToken)
 router.get('/', usersController.getAll);
 router.get('/:id', usersController.getById);

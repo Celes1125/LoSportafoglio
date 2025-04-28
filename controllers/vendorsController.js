@@ -91,24 +91,7 @@ module.exports = {
             next(e)
 
         }
-    },
-    // get all not deleted vendors of the user
-    getAllNotDeleted: async function (req, res, next) {
-        try {
-            const vendors = await vendorsModel.find(
-                {
-                    creator: req.params.userId,
-                    is_deleted: false
-                }).populate({
-                    path: "creator",
-                    model: "users"
-                })
-            res.send(vendors)
-
-        } catch (e) {
-            next(e)
-        }
-    },
+    },       
     logicDelete: async function (req, res, next) {
         try {
             const vendor = await vendorsModel.updateOne(

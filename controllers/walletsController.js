@@ -3,9 +3,6 @@ const walletsModel = require('../models/walletsModel')
 const pocketsModel = require('../models/pocketsModel')
 const Decimal = require('decimal.js');
 //const mongoose = require('mongoose'); // Necesario para ObjectId en el match de aggregación si se usa
-
-
-
 module.exports = {
     create: async function (req, res, next) {
         try {
@@ -33,11 +30,11 @@ module.exports = {
             next(e); 
         }
     },
-
     // get all users wallets, including those that were eliminated
     getAll: async function (req, res, next) {
         try {
             const wallets = await walletsModel.find({users: { $in: req.params.userId }})
+                .sort({creationDate: -1})
                 .populate({
                     path: "users",
                     model: "users"
@@ -49,7 +46,6 @@ module.exports = {
             next(e)
         }
     },
-
     // get all users wallets, but just those that were not eliminated
     getAllNotDeleted: async function (req, res, next) {
         try {
@@ -57,6 +53,7 @@ module.exports = {
                 users: { $in: req.params.userId },    
                 is_deleted: false              
             })
+                .sort({creationDate: -1})
                 .populate({
                     path: "users",
                     model: "users"
@@ -68,7 +65,6 @@ module.exports = {
             next(e)
         }
     },
-
     getById: async function (req, res, next) {
         try {
             async function findById(id) {
@@ -94,7 +90,6 @@ module.exports = {
 
         }
     },
-
     update: async function (req, res, next) {
         try {
             const wallet = await walletsModel.updateOne({ _id: req.params.id }, req.body)
@@ -105,7 +100,6 @@ module.exports = {
 
         }
     },
-
     logicDelete: async function (req, res, next) {
         try {
             // turning `is_deleted` to `true` 
@@ -123,7 +117,6 @@ module.exports = {
             next(e); // handling errors
         }
     },
-
     fisicDelete: async function (req, res, next) {
         try {
             const wallet = await walletsModel.deleteOne({ _id: req.params.id })
@@ -178,7 +171,6 @@ module.exports = {
         }
 
     },
-
     //getting total amount and neto amount of a wallet
     getAmountsOfWallet: async function (req, res, next) {
         const walletId = req.params.id;           
@@ -216,10 +208,7 @@ module.exports = {
             console.error("Error calculating wallet amounts:", e); // Loguea el error real
             next(e);
         }
-    }          
-
-    
-
+    }   
 }
 
 

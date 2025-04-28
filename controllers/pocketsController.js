@@ -41,6 +41,7 @@ const pocketsController = {
             const pockets = await pocketsModel.find({
                 wallet: { $in: req.params.walletId },
             })
+                .sort({creationDate: -1})
                 .populate({
                     path: "wallet",
                     model: "wallets"
@@ -58,6 +59,7 @@ const pocketsController = {
                 wallet: { $in: req.params.walletId },
                 is_deleted: false
             })
+                .sort({creationDate: -1})
                 .populate({
                     path: "wallet",
                     model: "wallets"
