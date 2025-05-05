@@ -10,7 +10,7 @@ const movementsSchema = new mongoose.Schema(
         },
         date: { 
             type: Date,
-            default: Date.now
+            required:[true, errorMessages.general.required]           
         },
         amount: {
             // using Decimal128 to not get float numbers issues   

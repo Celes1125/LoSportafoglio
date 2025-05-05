@@ -16,7 +16,8 @@ module.exports = {
                 fromPocket: req.body.fromPocket,
                 toPocket: req.body.toPocket,
                 pocket: req.body.pocket,
-                wallet: req.body.wallet
+                wallet: req.body.wallet,
+                date: req.body.date
             });
             const document = await movement.save(); // se guarda un amount Decimal128
             res.json(document); // se devuelve un amount.toString()
