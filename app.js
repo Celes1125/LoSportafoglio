@@ -1,6 +1,12 @@
 
 require('dotenv').config();
 
+
+// --- CÓDIGO DE DEPURACIÓN PARA RENDER ---
+console.log("--- INICIANDO DEPURACIÓN DE VARIABLES DE ENTORNO ---");
+console.log("El valor de SECRET_KEY leído por la app es:", process.env.SECRET_KEY);
+console.log("--- FIN DE DEPURACIÓN ---");
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -40,7 +46,8 @@ app.use(cors({
     'http://localhost:41489',
     'https://lo-sportafoglio-front.vercel.app',
     'https://lo-sportafoglio-front-git-develop-celes-projects-b4460b91.vercel.app',
-    'https://lo-sportafoglio-front.vercel.app'  // sin barra final
+    'https://lo-sportafoglio-front.vercel.app', // sin barra final
+    'https://lo-sportafoglio-front.vercel.app/login'
   ],
   methods: ['GET', 'POST', 'PATCH', 'DELETE', 'PUT', 'HEAD', 'OPTIONS'], 
   allowedHeaders: ['Content-Type', 'Authorization'],
