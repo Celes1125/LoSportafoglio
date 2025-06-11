@@ -3,9 +3,9 @@ require('dotenv').config();
 
 
 // --- CÓDIGO DE DEPURACIÓN PARA RENDER ---
-console.log("--- INICIANDO DEPURACIÓN DE VARIABLES DE ENTORNO ---");
-console.log("El valor de SECRET_KEY leído por la app es:", process.env.SECRET_KEY);
-console.log("--- FIN DE DEPURACIÓN ---");
+//console.log("--- INICIANDO DEPURACIÓN DE VARIABLES DE ENTORNO ---");
+//console.log("El valor de SECRET_KEY leído por la app es:", process.env.SECRET_KEY);
+//console.log("--- FIN DE DEPURACIÓN ---");
 
 var createError = require('http-errors');
 var express = require('express');
@@ -32,7 +32,7 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-app.set('secretKey', process.env.SECRET_KEY);
+//app.set('secretKey', process.env.SECRET_KEY);
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -93,7 +93,8 @@ app.use(function(err, req, res, next) {
     }
 
     // Verificar el token usando jwt.verify
-    jwt.verify(token, req.app.get('secretKey'), function (err, decoded) {
+   // jwt.verify(token, req.app.get('secretKey'), function (err, decoded) 
+   jwt.verify(token, process.env.SECRET_KEY, function (err, decoded){
         if (err) {
             return res.status(401).json({ message: err.message });
         } else {

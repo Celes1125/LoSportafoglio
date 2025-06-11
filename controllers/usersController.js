@@ -231,7 +231,8 @@ const usersController = {
       // Generar token
       const token = jwt.sign(
         { userId: user._id },
-        req.app.get('secretKey'),
+        //req.app.get('secretKey'),
+        process.env.SECRET_KEY, // Leyendo directamente del entorno
         { expiresIn: "10h" }
       );
 
