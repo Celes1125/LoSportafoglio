@@ -62,6 +62,15 @@ app.use('/wallets', walletsRouter);
 app.use('/pockets', pocketsRouter);
 app.use('/notifications', notificationsRouter);
 
+// health endpoint - see github actions workflow name: keep-alive
+// =======================================================================
+app.get("/health", (req, res) => {
+  // Añadimos un log para ver en la consola de Render cuando sea llamada
+  console.log("¡Ping! La ruta /health fue llamada correctamente."); 
+  res.status(200).json({ status: "UP" });
+});
+// =======================================================================
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -100,15 +109,6 @@ app.use(function(err, req, res, next) {
         }
     });
 }
-// En tu archivo principal del backend (ej. app.js)
-
-// endpoint de "health check" (/api/health)
-app.get("/api/health", (req, res) => {
-  res.status(200).json({ status: "UP" });
-});
-// 
-
-
 
 app.validateUser = validateUser; 
 module.exports = app;
