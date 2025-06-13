@@ -24,4 +24,4 @@ jobs:
         #    'curl' es una herramienta de línea de comandos para hacer peticiones HTTP.
         #    Las opciones -sS silencian la barra de progreso pero muestran errores.
         #    ¡¡¡RECUERDA CAMBIAR ESTA URL POR LA TUYA!!!
-        run: curl -sS "https://losportafoglio.onrender.com/health" // endpoint de salud
+        run: curl -sS "https://losportafoglio.onrender.com/health"
