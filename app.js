@@ -2,7 +2,7 @@
 require('dotenv').config();
 
 
-// --- CÓDIGO DE DEPURACIÓN PARA RENDER ---
+//--- CÓDIGO DE DEPURACIÓN PARA RENDER ---
 //console.log("--- INICIANDO DEPURACIÓN DE VARIABLES DE ENTORNO ---");
 //console.log("El valor de SECRET_KEY leído por la app es:", process.env.SECRET_KEY);
 //console.log("--- FIN DE DEPURACIÓN ---");
@@ -13,8 +13,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors')
-var jwt = require('jsonwebtoken'); // Asegúrate de que JWT esté importado
-
+var jwt = require('jsonwebtoken'); 
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -53,8 +52,6 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization'],
   exposedHeaders: ['Content-Disposition'],
 }));
-
-
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -103,5 +100,15 @@ app.use(function(err, req, res, next) {
         }
     });
 }
+// En tu archivo principal del backend (ej. app.js)
+
+// endpoint de "health check" (/api/health)
+app.get("/api/health", (req, res) => {
+  res.status(200).json({ status: "UP" });
+});
+// 
+
+
+
 app.validateUser = validateUser; 
 module.exports = app;
