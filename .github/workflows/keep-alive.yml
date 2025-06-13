@@ -1,0 +1,27 @@
+# 1. Nombre del Workflow: Un nombre descriptivo que verás en la pestaña Actions.
+name: Keep Backend Alive
+
+# 2. Evento de Disparo (Trigger): Cuándo debe ejecutarse este robot.
+on:
+  schedule:
+    # 3. La programación: Usa la sintaxis "cron".
+    #    '*/14 * * * *' significa "ejecutar cada 14 minutos".
+    - cron: '*/14 * * * *'
+
+# 4. Trabajos (Jobs): Las tareas que el robot debe realizar.
+jobs:
+  # 5. Nombre del Trabajo: Puedes tener varios trabajos. Este se llama "ping_service".
+  ping_service:
+    # 6. Máquina Virtual: En qué tipo de ordenador se ejecutará el trabajo.
+    #    'ubuntu-latest' es una máquina Linux estándar, perfecta y gratuita.
+    runs-on: ubuntu-latest
+
+    # 7. Pasos (Steps): La secuencia de comandos que ejecutará el trabajo.
+    steps:
+      # 8. Un paso individual. Le damos un nombre para que sea fácil de leer en los logs.
+      - name: Ping the backend URL to keep it alive
+        # 9. Comando a ejecutar: El corazón de la acción.
+        #    'curl' es una herramienta de línea de comandos para hacer peticiones HTTP.
+        #    Las opciones -sS silencian la barra de progreso pero muestran errores.
+        #    ¡¡¡RECUERDA CAMBIAR ESTA URL POR LA TUYA!!!
+        run: curl -sS "https://losportafoglio.onrender.com/api/health" // endpoint de salud
